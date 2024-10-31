@@ -134,7 +134,7 @@
   "sourceMap": "27:1370:0:-;;;534:105;8:9:-1;5:2;;;30:1;27;20:12;5:2;534:105:0;566:27;;;;;;;;;;;;;;;;;;:12;;;:27;;:::i;:::-;604;;;;;;;;;;;;;;;;;;:12;;;:27;;:::i;:::-;27:1370;;647:218;709:15;;:17;;;;;;;;;;;;;767:36;;;;;;;;777:15;;767:36;;;;794:5;767:36;;;;801:1;767:36;;;737:10;:27;748:15;;737:27;;;;;;;;;;;:66;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;819:38;834:15;;851:5;819:38;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;819:38:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;647:218;:::o;27:1370::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;",
   "deployedSourceMap": "27:1370:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:1370:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;873:521;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;873:521:0;;;;;;;;;;;;;;;;;:::i;:::-;;372:27;;;:::i;:::-;;;;;;;;;;;;;;;;;;;290:44;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;290:44:0;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;290:44:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;215:38;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;215:38:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;873:521;1106:1;1091:12;:16;:51;;;;;1127:15;;1111:12;:31;;1091:51;1083:85;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1301:10;:24;1312:12;1301:24;;;;;;;;;;;:34;;;:36;;;;;;;;;;;;;1355:31;1361:10;1373:12;1355:31;;;;;;;;;;;;;;;;;;;;;;;;;;;;873:521;:::o;372:27::-;;;;:::o;290:44::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;215:38::-;;;;;;;;;;;;;;;;;;;;;;:::o",
   "source": "pragma solidity ^0.5.0;\r\n\r\ncontract Election {\r\n    // Model a Candidate\r\n    struct Candidate {\r\n        uint id;\r\n        string name;\r\n        uint voteCount;\r\n    }\r\n\r\n    // Store accounts that have voted\r\n    mapping(address => bool) public voters;\r\n    // Read/write candidates\r\n    mapping(uint => Candidate) public candidates;\r\n    // Store Candidates Count\r\n    uint public candidatesCount;\r\n\r\n    // Events\r\n    event CandidateAdded(uint candidateId, string name);\r\n    event Voted(address voter, uint candidateId);\r\n\r\n    constructor() public {\r\n        addCandidate(\"Candidate 1\");\r\n        addCandidate(\"Candidate 2\");\r\n    }\r\n\r\n    function addCandidate(string memory _name) private {\r\n        candidatesCount++;\r\n        candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);\r\n        emit CandidateAdded(candidatesCount, _name);\r\n    }\r\n\r\n    function vote(uint _candidateId) public {\r\n        // require that they haven't voted before\r\n        //require(!voters[msg.sender], \"You have already voted.\");\r\n\r\n        // require a valid candidate\r\n        require(_candidateId > 0 && _candidateId <= candidatesCount, \"Invalid candidate ID.\");\r\n\r\n        // record that voter has voted\r\n        //voters[msg.sender] = true;\r\n\r\n        // update candidate vote Count\r\n        candidates[_candidateId].voteCount++;\r\n\r\n        emit Voted(msg.sender, _candidateId);\r\n    }\r\n}",
-  "sourcePath": "G:\\CSC199\\election\\contracts\\Election.sol",
+  "sourcePath": "G:\\Git\\CSC199-DAPP\\election\\contracts\\Election.sol",
   "ast": {
     "absolutePath": "project:/contracts/Election.sol",
     "exportedSymbols": {
@@ -2763,14 +2763,54 @@
   },
   "networks": {
     "5777": {
-      "events": {},
+      "events": {
+        "0xe83b2a43e7e82d975c8a0a6d2f045153c869e111136a34d1889ab7b598e396a3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "candidateId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            }
+          ],
+          "name": "CandidateAdded",
+          "type": "event"
+        },
+        "0x4d99b957a2bc29a30ebd96a7be8e68fe50a3c701db28a91436490b7d53870ca4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "voter",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "candidateId",
+              "type": "uint256"
+            }
+          ],
+          "name": "Voted",
+          "type": "event"
+        }
+      },
       "links": {},
-      "address": "0x5e56044125C30bE6Af83A289fe5dCf591e0745a2",
-      "transactionHash": "0x34f85b99bfb0b775b8da2f5d908f5c74350b609f3581e26ec7ba0bae1b1817cc"
+      "address": "0xdE3A458A872aE64A5E9c4527cd1B08caB5034739",
+      "transactionHash": "0x0e26cf342713b6217905e8ce51a7b7b53c3d1c48d6e9b122120a7eb858325edb"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-10-10T03:23:59.006Z",
+  "updatedAt": "2024-10-31T01:35:20.610Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {}
   },
